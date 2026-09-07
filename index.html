@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rotas Cariocas — Floresta da Tijuca</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EFEAD9;
+    --paper-2:#E7E1CC;
+    --paper-3:#DFD8BE;
+    --ink:#1E2A20;
+    --ink-soft:#3C4A3E;
+    --moss:#39543D;
+    --moss-deep:#22331F;
+    --water:#2B6B74;
+    --clay:#93602F;
+    --gold:#B9862E;
+    --rule: rgba(30,42,32,0.16);
+    --maxw: 800px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:'Work Sans', sans-serif; font-weight:400; line-height:1.68;
+    -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  }
+  h1,h2,h3,.serif{font-family:'Fraunces', serif; font-weight:500; color:var(--moss-deep); margin:0;}
+  p{margin:0 0 1.1em;}
+  a{color:var(--water);}
+  img{max-width:100%; display:block;}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px;}
+
+  #progress{position:fixed; top:0; left:0; height:3px; width:0%; background:linear-gradient(90deg, var(--moss), var(--gold)); z-index:100; transition:width .08s linear;}
+
+  .reveal{opacity:0; transform:translateY(28px); transition:opacity .8s cubic-bezier(.2,.7,.3,1), transform .8s cubic-bezier(.2,.7,.3,1);}
+  .reveal.in{opacity:1; transform:translateY(0);}
+
+  nav{position:sticky; top:0; z-index:40; background:rgba(239,234,217,0.94); backdrop-filter:blur(6px); border-bottom:1px solid var(--rule);}
+  .navwrap{max-width:var(--maxw); margin:0 auto; padding:14px 28px; display:flex; align-items:center; justify-content:space-between; gap:16px;}
+  .brand{font-family:'Fraunces',serif; font-weight:600; font-size:17px; color:var(--moss-deep); white-space:nowrap;}
+  .navlinks{display:flex; gap:14px; flex-wrap:wrap;}
+  .navlinks a{position:relative; font-size:12px; letter-spacing:.02em; color:var(--ink-soft); text-decoration:none; padding-bottom:3px;}
+  .navlinks a::after{content:""; position:absolute; left:0; bottom:0; width:0; height:1px; background:var(--moss); transition:width .3s ease;}
+  .navlinks a:hover::after{width:100%;}
+
+  .hero{position:relative; overflow:hidden; height:74vh; min-height:480px; background-color: var(--moss-deep);}
+  .hero-bg{position:absolute; inset:-40px -20px -40px -20px; background-size:cover; background-position:center; filter:saturate(0.9) brightness(0.58); will-change:transform;}
+  .hero-overlay{position:absolute; inset:0; display:flex; align-items:flex-end; background:linear-gradient(180deg, rgba(20,30,20,0.05) 20%, rgba(15,22,15,0.87) 100%);}
+  .hero-text{padding:48px 28px 44px; max-width:var(--maxw); margin:0 auto; width:100%;}
+  .hero-kicker{color:var(--gold); font-size:13px; letter-spacing:.03em; margin-bottom:10px; opacity:0; animation:fadeUp .9s ease .1s forwards;}
+  .hero h1{color:#F3EFE1; font-size:clamp(30px,5vw,50px); line-height:1.1; max-width:15ch; opacity:0; animation:fadeUp .9s ease .28s forwards;}
+  .hero-sub{color:#D8D8C8; font-size:16px; margin-top:14px; max-width:48ch; opacity:0; animation:fadeUp .9s ease .46s forwards;}
+  .hero-team{margin-top:22px; display:flex; flex-wrap:wrap; gap:8px; opacity:0; animation:fadeUp .9s ease .62s forwards;}
+  .chip{font-size:12.5px; color:#F3EFE1; border:1px solid rgba(243,239,225,0.35); padding:5px 13px; border-radius:20px;}
+  @keyframes fadeUp{ from{opacity:0; transform:translateY(18px);} to{opacity:1; transform:translateY(0);} }
+
+  section{padding:70px 0;}
+  section + section{border-top:1px solid var(--rule);}
+  .pagetag{font-size:12px; letter-spacing:.05em; color:var(--gold); font-family:'Fraunces',serif; font-style:italic; margin-bottom:4px;}
+  .eyebrow{color:var(--clay); font-size:14px; font-style:italic; font-family:'Fraunces',serif; margin-bottom:6px;}
+  h2{font-size:clamp(24px,3.4vw,32px); margin-bottom:24px; max-width:22ch;}
+  h3{font-size:19px; margin:36px 0 12px; color:var(--moss-deep);}
+  .lede{font-size:18px; color:var(--ink-soft); max-width:58ch; margin-bottom:30px;}
+
+  figure{margin:34px 0;}
+  figcaption{font-family:'Fraunces',serif; font-style:italic; font-size:14px; color:var(--ink-soft); margin-top:9px; padding-left:14px; border-left:2px solid var(--moss);}
+
+  .gallery{margin:40px 0;}
+  .gallery-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  @media (max-width:600px){.gallery-grid{grid-template-columns:1fr;}}
+  .gallery-frame{overflow:hidden; border-radius:2px; position:relative; aspect-ratio:4/3; background-color: var(--paper-3);}
+  .gallery-frame img{width:100%; height:100%; object-fit:cover; transition:transform .7s cubic-bezier(.2,.7,.3,1), filter .5s ease; filter:saturate(.96);}
+  .gallery-frame:hover img{transform:scale(1.08); filter:saturate(1.08);}
+  
+  .field-note{background:var(--paper-2); border-left:3px solid var(--water); padding:18px 22px; margin:32px 0; font-size:15px; color:var(--ink-soft);}
+  .field-note strong{color:var(--ink); font-weight:600;}
+
+  .stat-row{display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin:34px 0;}
+  @media (max-width:640px){.stat-row{grid-template-columns:1fr 1fr;}}
+  .stat{background:var(--paper-2); padding:20px 16px; text-align:left; border-top:2px solid var(--moss); transition:transform .35s ease, background .35s ease;}
+  .stat:hover{transform:translateY(-4px); background:var(--paper-3);}
+  .stat .num{font-family:'Fraunces',serif; font-size:28px; color:var(--moss-deep); display:block;}
+  .stat .label{font-size:12.5px; color:var(--ink-soft); margin-top:4px; display:block;}
+
+  .impact-list{margin:30px 0;}
+  .impact-item{display:grid; grid-template-columns:130px 1fr; gap:18px; padding:18px 0; border-bottom:1px solid var(--rule); transition:padding-left .3s ease;}
+  .impact-item:hover{padding-left:8px;}
+  .impact-item:first-child{border-top:1px solid var(--rule);}
+  .impact-tag{font-family:'Fraunces',serif; font-style:italic; font-size:14px; color:var(--clay);}
+  @media (max-width:560px){.impact-item{grid-template-columns:1fr; gap:4px;}}
+
+  .conclusion{background:var(--moss-deep); color:#EDE9D8;}
+  .conclusion h2{color:#F3EFE1;}
+  .conclusion .eyebrow, .conclusion .pagetag{color:var(--gold);}
+  .conclusion .lede{color:#CDD3C4;}
+  .conclusion .field-note{background:rgba(255,255,255,0.06); border-left-color:var(--gold); color:#DCE0D2;}
+  .conclusion .field-note strong{color:#F3EFE1;}
+  .policy-box{border:1px solid rgba(237,233,216,0.22); padding:24px 26px; margin:26px 0; transition:border-color .35s ease, background .35s ease;}
+  .policy-box:hover{border-color:rgba(237,233,216,0.5); background:rgba(255,255,255,0.03);}
+  .policy-box .num{display:inline-block; font-family:'Fraunces',serif; font-style:italic; color:var(--gold); font-size:13px; margin-bottom:8px;}
+  .policy-box h3{color:#F3EFE1; font-size:18px; margin-bottom:10px;}
+  .policy-box p{color:#CDD3C4; margin-bottom:0;}
+
+  footer{padding:44px 0 60px; font-size:13px; color:var(--ink-soft);}
+  footer h3{font-family:'Work Sans',sans-serif; font-weight:600; font-size:13px; color:var(--ink); margin-bottom:14px;}
+  footer ol{padding-left:18px; margin:0;}
+  footer li{margin-bottom:10px;}
+  footer a{color:var(--water);}
+  .project-credit{text-align:center; font-family:'Fraunces',serif; font-style:italic; color:var(--gold); margin-top:30px; font-size:15px;}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<nav>
+  <div class="navwrap">
+    <div class="brand">Rotas Cariocas</div>
+    <div class="navlinks">
+      <a href="#trilha">Trilha</a>
+      <a href="#ph">pH</a>
+      <a href="#historia">História</a>
+      <a href="#monumento">Arquitetura & Paisagem</a>
+      <a href="#conclusao">Propostas</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-bg" id="heroBg" style="background-image:url('capa.jpg');"></div>
+  <div class="hero-overlay">
+    <div class="hero-text">
+      <div class="hero-kicker">Trabalho de Campo</div>
+      <h1>Floresta da Tijuca</h1>
+      <div class="hero-sub">Uma imersão na maior floresta urbana replantada do mundo. Observações diretas de nossa expedição na Mata Atlântica.</div>
+      
+      <div class="hero-team">
+        <div class="chip">Arthur Salomão</div>
+        <div class="chip">Arthur Barros</div>
+        <div class="chip">Bernardo Reis</div>
+        <div class="chip">Gabriel Muzitano</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="trilha">
+  <div class="wrap reveal">
+    <div class="pagetag">A Expedição</div>
+    <div class="eyebrow">Data: 17 de Agosto</div>
+    <h2>Relato do nosso trabalho de campo</h2>
+    <p class="lede">Realizamos a expedição no dia 17 de agosto. Fomos recebidos por um clima ameno, o que nos permitiu observar uma faceta do ecossistema e registrar os detalhes da Trilha do Estudante.</p>
+    
+    <div class="gallery">
+      <div class="gallery-grid">
+        <div class="gallery-frame">
+          <img src="trilha1.jpg" alt="Foto da trilha">
+        </div>
+        <div class="gallery-frame">
+          <img src="trilha2.jpg" alt="Detalhe da expedição">
+        </div>
+      </div>
+      <figcaption>Fotografias registradas por Arthur Salomão e Bernardo Reis durante a nossa vivência de campo.</figcaption>
+    </div>
+
+    <div class="field-note">
+      <strong>O que percebemos no local:</strong><br>
+      Durante a caminhada pela trilha, notamos a presença pontual de pequenos resíduos plásticos deixados por visitantes — um reflexo direto da pressão urbana e da necessidade de maior conscientização sobre o lixo no parque.
+    </div>
+  </div>
+</section>
+
+<section id="ph">
+  <div class="wrap reveal">
+    <div class="pagetag">Monitoramento Prático</div>
+    <div class="eyebrow">Qualidade da Água</div>
+    <h2>Teste de pH no dia da visita</h2>
+    <p class="lede">Durante nossa caminhada, paramos para realizar o teste prático de pH nas águas correntes da floresta. Usamos fitas indicadoras e confrontamos o resultado com a escala padrão de cores para avaliar a acidez e qualidade hídrica do ponto visitado naquele exato momento.</p>
+    
+    <div class="gallery">
+      <div class="gallery-grid">
+        <div class="gallery-frame">
+          <img src="ph1.jpg" alt="Teste prático de pH realizado pelo grupo">
+        </div>
+        <div class="gallery-frame">
+          <img src="ph2.jpg" alt="Tabela da escala de pH usada na análise">
+        </div>
+      </div>
+      <figcaption>Fotografias registradas por Arthur Salomão e Bernardo Reis: coleta na água e comparação com a escala cromática do pH.</figcaption>
+    </div>
+
+    <div class="field-note">
+      <strong>Resultado e Análise da Fita:</strong><br>
+      Pela coloração obtida na fita indicadora (confrontada com a escala da imagem), o resultado do pH ficou na faixa de <strong>6 a 7 (levemente ácido a neutro)</strong>. Isso ocorre porque as águas correntes de nascentes em matas preservadas absorvem ácidos húmicos naturais da matéria orgânica em decomposição no solo da floresta, mantendo o ecossistema hídrico equilibrado e saudável.
+    </div>
+  </div>
+</section>
+
+<section id="historia">
+  <div class="wrap reveal">
+    <div class="pagetag">Raízes e Memória</div>
+    <h2>História, Escravizados e Impactos</h2>
+    
+    <div class="stat-row">
+      <div class="stat">
+        <span class="num" data-count="1861">0</span>
+        <span class="label">Início do Reflorestamento</span>
+      </div>
+      <div class="stat">
+        <span class="num" data-count="63">0</span>
+        <span class="label">Espécies de Mamíferos</span>
+      </div>
+      <div class="stat">
+        <span class="num" data-count="226">0</span>
+        <span class="label">Espécies de Aves</span>
+      </div>
+    </div>
+
+    <p class="lede">Antes de se tornar o exuberante parque que visitamos, o Maciço da Tijuca foi devastado por séculos de exploração de madeira, carvão e, principalmente, pelas grandes plantações de café que secaram as fontes de água do Rio de Janeiro.</p>
+
+    <p class="reveal"><strong>O papel fundamental da mão de obra escravizada:</strong> O monumental trabalho de reflorestamento ordenado por Dom Pedro II e comandado pelo Major Manuel Archer a partir de 1861 não teria sido possível sem o suor e o trabalho braçal pesado de dezenas de escravizados e trabalhadores livres pobres. Foram eles que cavaram covas, plantaram centenas de milhares de mudas nativas e ergueram estruturas de pedra sob condições duríssimas, reerguendo do zero a floresta que hoje conhecemos.</p>
+
+    <div class="impact-list reveal">
+      <div class="impact-item"><div class="impact-tag">Visitação</div><p>Em nossa caminhada, identificamos marcas do uso público intenso, como erosão do solo e atalhos abertos fora do trajeto oficial.</p></div>
+      <div class="impact-item"><div class="impact-tag">Água</div><p>O teste de pH que realizamos ilustra a importância de monitorar as nascentes locais contra o impacto e a alteração da qualidade hídrica.</p></div>
+      <div class="impact-item"><div class="impact-tag">Bordas urbanas</div><p>A proximidade com a cidade gera pressões constantes, como o descarte de lixo nas imediações e a invasão de limites.</p></div>
+      <div class="impact-item"><div class="impact-tag">Fogo</div><p>O risco de incêndios na estação seca exige brigadas de prevenção e aceiros constantes para proteger a fauna e flora.</p></div>
+      <div class="impact-item"><div class="impact-tag">Espécies invasoras</div><p>A concorrência de plantas e animais exóticos introduzidos no passado ainda desafia o equilíbrio ecológico da Mata Atlântica.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO: ARQUITETURA HISTÓRICA E RECURSOS HÍDRICOS -->
+<section id="monumento">
+  <div class="wrap reveal">
+    <div class="pagetag">Patrimônio Construído e Natural</div>
+    <div class="eyebrow">Arquitetura e Paisagem</div>
+    <h2>Arquitetura Histórica e Recursos Hídricos</h2>
+    <p class="lede">Um dos pontos mais marcantes da nossa expedição une a engenharia histórica e a exuberância natural da floresta: a imponente Ponte dos Arcos e a queda d'água cristalina situada logo ao lado.</p>
+    
+    <div class="gallery">
+      <div class="gallery-grid">
+        <div class="gallery-frame">
+          <img src="ponte.jpg" alt="Ponte dos Arcos na Floresta da Tijuca">
+        </div>
+        <div class="gallery-frame">
+          <img src="cachoeira.png" alt="Cachoeira na Floresta da Tijuca">
+        </div>
+      </div>
+      <figcaption>Fotografias registradas por Arthur Salomão e Bernardo Reis: a arquitetura em arco de pedra e a cachoeira integrada ao percurso.</figcaption>
+    </div>
+
+    <p class="reveal"><strong>A relevância da construção:</strong> Estruturas como a Ponte dos Arcos refletem o esforço de urbanização e acesso planejado do século XIX dentro do parque. Construídas com blocos de rocha encaixados, essas obras facilitavam o escoamento e a travessia em meio a um relevo extremamente acidentado e cortado por cursos d'água. Ao lado da cachoeira, formam um cenário onde a intervenção humana histórica dialoga diretamente com a força da natureza regenerada.</p>
+  </div>
+</section>
+
+<section id="conclusao" class="conclusion">
+  <div class="wrap">
+    <div class="pagetag reveal">Conclusão</div>
+    <div class="eyebrow reveal">O Futuro</div>
+    <h2 class="reveal">Propostas do grupo</h2>
+    <p class="lede reveal">Cuidar da Floresta da Tijuca hoje exige manter viva a memória de sua restauração, proteger o patrimônio histórico e adotar medidas práticas no cotidiano do parque.</p>
+
+    <div class="policy-box reveal">
+      <span class="num">Proposta 1</span>
+      <h3>Mutirões escolares de monitoramento e limpeza leve nas trilhas</h3>
+      <p>Estabelecer um programa regular em parceria com escolas públicas e privadas onde turmas e visitantes realizem ações guiadas de recolhimento de pequenos resíduos plásticos e checagem simples de parâmetros hídricos (como o teste de pH que realizamos em campo), unindo educação ambiental direta, cidadania e conservação ativa dos recursos naturais.</p>
+    </div>
+
+    <div class="policy-box reveal">
+      <span class="num">Proposta 2</span>
+      <h3>Sinalização educativa expandida e barreiras visuais de proteção ao solo</h3>
+      <p>Instalar placas informativas e bilíngues de baixo impacto visual ao longo da Trilha do Estudante e próximo a monumentos históricos, detalhando o esforço de recuperação da mata (inclusive o papel essencial da mão de obra escravizada), acompanhadas de cordas discretas e estacas ecológicas para conter a abertura de atalhos e mitigar a erosão do solo.</p>
+    </div>
+
+    <div class="policy-box reveal">
+      <span class="num">Proposta 3</span>
+      <h3>Programa de conservação integrada do patrimônio arquitetônico e natural</h3>
+      <p>Criar uma diretriz específica de manutenção preventiva para marcos históricos de pedra — como a Ponte dos Arcos e pontilhões do parque —, unindo a limpeza cuidadosa de musgos destrutivos e a fiscalização do entorno das cachoeiras para evitar pichações, acúmulo de lixo nas margens e o pisoteio excessivo que danifica as encostas e as margens dos riachos.</p>
+    </div>
+
+    <div class="field-note reveal">
+      <strong>Reflexão do grupo —</strong> o trabalho de campo nos provou que a floresta é um patrimônio vivo e histórico que depende diretamente da nossa consciência coletiva para continuar protegendo o Rio de Janeiro.
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <footer id="referencias">
+    <h3>Referências bibliográficas</h3>
+    <ol>
+      <li>Parque Nacional da Tijuca. <em>Fauna e Flora</em>. Disponível em: <a href="https://parquenacionaldatijuca.rio/" target="_blank" rel="noopener">parquenacionaldatijuca.rio</a>.</li>
+      <li>WikiParques. <em>Parque Nacional da Tijuca</em>. Disponível em: <a href="https://www.wikiparques.org/wiki/Parque_Nacional_da_Tijuca" target="_blank" rel="noopener">wikiparques.org</a>.</li>
+      <li>Wikipédia. <em>Parque Nacional da Tijuca</em>. Disponível em: <a href="https://pt.wikipedia.org/wiki/Parque_Nacional_da_Tijuca" target="_blank" rel="noopener">pt.wikipedia.org</a>.</li>
+      <li>Fotografias registradas por Arthur Salomão e Bernardo Reis durante a saída de campo na Trilha do Estudante, Ponte dos Arcos e Cachoeira, Parque Nacional da Tijuca.</li>
+    </ol>
+    <div class="project-credit">Projeto feito por Arthur Salomão</div>
+  </footer>
+</div>
+
+<script>
+  var bar = document.getElementById('progress');
+  window.addEventListener('scroll', function(){
+    var h = document.documentElement;
+    var scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+    bar.style.width = scrolled + '%';
+  });
+
+  var heroBg = document.getElementById('heroBg');
+  window.addEventListener('scroll', function(){
+    var y = window.scrollY;
+    if (y < window.innerHeight) heroBg.style.transform = 'translateY(' + (y * 0.25) + 'px)';
+  });
+
+  var revealEls = document.querySelectorAll('.reveal');
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) { entry.target.classList.add('in'); io.unobserve(entry.target); }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+  revealEls.forEach(function(el){ io.observe(el); });
+
+  var statRows = document.querySelectorAll('.stat-row');
+  var cio = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        var counters = entry.target.querySelectorAll('[data-count]');
+        counters.forEach(function(el){
+          var target = parseInt(el.getAttribute('data-count'), 10);
+          var duration = 1400; var startTime = null;
+          function step(ts){
+            if (!startTime) startTime = ts;
+            var progress = Math.min((ts - startTime) / duration, 1);
+            var eased = 1 - Math.pow(1 - progress, 3);
+            el.textContent = Math.floor(eased * target);
+            if (progress < 1) requestAnimationFrame(step); else el.textContent = target;
+          }
+          requestAnimationFrame(step);
+        });
+        cio.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.4 });
+  statRows.forEach(function(row){ cio.observe(row); });
+</script>
+
+</body>
+</html>
